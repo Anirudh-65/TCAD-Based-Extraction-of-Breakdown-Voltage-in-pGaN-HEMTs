@@ -1,0 +1,37 @@
+
+****************************************************************************
+***                           Sentaurus Visual                           ***
+***                         Version T-2022.03-SP1                        ***
+***                      (0.7606963, x86_64, Linux)                      ***
+***                                                                      ***
+***                        Copyright (c) 2012-2022                       ***
+***                            Synopsys, Inc.                            ***
+***  This software and the associated documentation are confidential     ***
+***  and proprietary to Synopsys, Inc.  Your use or disclosure of this   ***
+***  software is subject to the terms and conditions of a written        ***
+***  license agreement between you, or your company, and Synopsys, Inc.  ***
+****************************************************************************
+
+Compiled Wed May  4 22:11:29 PDT 2022 on swe-vm-kcr-tcad02
+
+Error: License feature svisual_all already expired. Please request a new license
+[SCL] Checking status for feature svisual_all - 05/18/2025 11:27:02
+[SCL] 05/18/2025 11:27:02 PID:43121 Client:vlsi.iitgn.ac.in Server:27020@10.0.117.244 Checkout succeeded svisual_all 2022.03
+Datexcodes: Found and Loaded at: '/opt/tools/Synopsys/T-2022.03-SP1/tcad/T-2022.03-SP1/lib/datexcodes.txt'.
+Tcl-Library: path added: '/opt/tools/Synopsys/T-2022.03-SP1/tcad/T-2022.03-SP1/lib/svisuallib'.
+Tcl-Library: path added: '/home/anirudhmittal/svisuallib'.
+Loading Custom Buttons interface ... works only in Interactive mode.
+Loading Extraction Library Version 2.3
+Loading Internal Library Version 0.7
+Loading Physical Constants Library Version 0.4
+Loading IFM Data Post-Processing Library Version 1.3.0
+Loading RF Parameter Extraction Library Version 1.0.2
+Tcl-Library: files successfully loaded: '6'.
+#TCL: load_script_file /home/anirudhmittal/TCAD/AlGaN_Buffer_SiC6H/n4794_vis.tcl
+#TCL: # WARNING:The parameter 'scale_font_size' is deprecated. Please, use the parameter 'label_font_size'  instead.
+#TCL: # WARNING:The parameter 'scale_font_size' is deprecated. Please, use the parameter 'label_font_size'  instead.
+DOE: BVi 1125.19
+
+#TCL: # BVi is 1125.19 V
+#TCL: #-> 0
+[SCL] 05/18/2025 11:27:02 PID:43121 Client:vlsi.iitgn.ac.in checkin-incr Feature:svisual_all Count:1 
