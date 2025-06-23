@@ -32,7 +32,9 @@ Simulations were performed using **Synopsys Sentaurus** with physical models for
 - Impact ionization
 
 ---
+## Repository Breakdown
 
+This repository is organized into three major sections. The root directory contains the main `README.md` file providing an overview of the project, and a `setup_and_procedure.md` file detailing the TCAD modeling methodology. Two folders, `gan/` and `algan/`, contain all relevant simulation files for the GaN buffer and AlGaN buffer configurations respectively. Each of these folders includes the Sentaurus SDE input script, SDevice simulation file, shared physics model definitions, a visualization script (`svisual.tcl`), and a parameter file. The `results/` directory is divided into `gan/` and `algan/` subfolders, each holding output data and plots for the configuration that achieved the highest breakdown voltage. These include the Id–Vg curve, breakdown curve, electric field distribution image, and a summary `README.md` with observations, extracted values, and concluding insights.
 
 ---
 
