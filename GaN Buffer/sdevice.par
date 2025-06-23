@@ -1,0 +1,337 @@
+# Define lattice parameters for all materials outside of any material or region blocks
+# Use ParameterInheritance= Flatten in main Math section so these parameters are
+# inherited by all materials and regions
+LatticeParameters {
+	X = (0, 0,-1)
+	Y = (1, 1, 0)
+}
+
+Thermionic {
+	Formula= 1
+}
+
+BarrierTunneling "NLM_Gate" {
+	mt= 0.2,0.25
+}
+
+BarrierTunneling "NLM_Bot" {
+	mt= 0.2,0.25
+}
+
+BarrierTunneling "NLM_Top" {
+	mt= 0.2,0.25
+}
+
+Region= "Channel" {
+	ConstantMobility:
+	{ * mu_const = mumax (T/T0)^(-Exponent)
+		mumax	= 1800 ,	1.5000e+02	# [cm^2/(Vs)]
+		Exponent	= 1 ,	2.1	# [1]
+		mutunnel	= 0.05 ,	0.05	# [cm^2/(Vs)]
+	}
+}
+
+
+Material= "GaN" {
+	Scharfetter * relation and trap level for SRH recombination:
+	{ * tau = taumin + ( taumax - taumin ) / ( 1 + ( N/Nref )^gamma)
+	  * tau(T) = tau * ( (T/300)^Talpha )          (TempDep)
+	  * tau(T) = tau * exp( Tcoeff * ((T/300)-1) ) (ExpTempDep)
+		taumin	= 0.0000e+00 ,	0.0000e+00	# [s]
+		taumax	= 1e-9,	1e-9	# [s]
+		Nref	= 1.0000e+16 ,	1.0000e+16	# [cm^(-3)]
+		gamma	= 1 ,	1	# [1]
+		Talpha	= -1.5000e+00 ,	-1.5000e+00	# [1]
+		Tcoeff	= 2.55 ,	2.55	# [1]
+		Etrap	= 0.0000e+00	# [eV]
+	}
+
+	# Same as original parameters for electrons.
+	# Only effective change is in optical phonon energy (hbarOmega)
+	# Significant changes for holes that result in much lower II
+	vanOverstraetendeMan * Impact Ionization:
+	{ * G_impact = alpha_n n v_drift_n  +  alpha_p p v_drift_p
+	  * with alpha = gamma a  exp(-b gamma/E) for E<E0 (low) and E>E0 (high)
+	  *  with gamma = tanh(hbarOmega/(2kT0)) / tanh(hbarOmega/(2kT))
+		a(low)	= 2.9e+08 ,	5.4100e+06		# [1/cm]
+		a(high)	= 2.9e+08 ,	5.4100e+06		# [1/cm]
+		b(low)	= 3.4e+07 ,	1.9600e+07		# [V/cm]
+		b(high)	= 3.4e+07 ,	1.9600e+07		# [V/cm]
+		E0	= 3.0000e+06 ,	3.0000e+06		# [V/cm]
+		hbarOmega	= 0.091 ,	0.091		# [eV]
+	}
+
+	QuantumPotentialParameters
+	{ * gamma:  weighting factor for quantum potential
+	  * theta:  weight for quadratic term
+	  * xi:     weight for quasi Fermi potential
+	  * eta:    weight for electrostatic potential
+		gamma	= 1.4 ,	5.6	# [1]
+		theta	= 0.5 ,	0.5	# [1]
+		xi	= 1 ,	1	# [1]
+		eta	= 1 ,	1	# [1]
+	}
+	
+	Ionization {
+		Species ("pMagnesiumActiveConcentration") {
+			type= acceptor
+			E_0= 0.29	# Matches well average value in publications
+			alpha= 3e-8	# Same as Si for now
+			g= 4
+			Xsec = 1.0e-12
+		}
+                Species ("BoronActiveConcentration") {
+			type= acceptor
+			E_0= 0      # Effectively disable Boron ionization in GaN
+			alpha= 0
+			g= 2        # Degeneracy factor for acceptors
+			Xsec = 1.0e-12
+		}
+
+	}
+}
+
+Material= "AlGaN" {
+	Scharfetter * relation and trap level for SRH recombination:
+	{ * tau = taumin + ( taumax - taumin ) / ( 1 + ( N/Nref )^gamma)
+	  * tau(T) = tau * ( (T/300)^Talpha )          (TempDep)
+	  * tau(T) = tau * exp( Tcoeff * ((T/300)-1) ) (ExpTempDep)
+		taumin	= 0.0000e+00 ,	0.0000e+00	# [s]
+		taumax	= 1e-9 ,	1e-9	# [s]
+		Nref	= 1.0000e+16 ,	1.0000e+16	# [cm^(-3)]
+		gamma	= 1 ,	1	# [1]
+		Talpha	= -1.5000e+00 ,	-1.5000e+00	# [1]
+		Tcoeff	= 2.55 ,	2.55	# [1]
+		Etrap	= 0.0000e+00	# [eV]
+	}
+	
+	Piezoelectric_Polarization 	{
+		* strain parameters:
+		relax	= 0	# [1]
+	}
+
+	Ionization {
+		Species ("pMagnesiumActiveConcentration") {
+			type= acceptor
+			E_0= 0.29	# Matches well average value in publications
+			alpha= 3e-8	# Same as Si for now
+			g= 4
+			Xsec = 1.0e-12
+		}
+                Species ("BoronActiveConcentration") {
+			type= acceptor
+			E_0= 0      # Effectively disable Boron ionization in GaN
+			alpha= 0
+			g= 2        # Degeneracy factor for acceptors
+			Xsec = 1.0e-12
+		}
+
+	}
+}
+
+
+
+
+Material= "AlN" {
+	* Masetti model re-calibrated for holes based on D. Gaskill, et. al., 
+	* in Properties of Group III Nitrides, ed. J. Edgar, EMIS Dateviews Series,
+	* N11, p. 101 (1995). Values for GaN repeated due to lack of information for AlN
+	* Defaults repeated for electrons
+	DopingDependence:
+	{
+	  * For doping dependent mobility model three formulas
+	  * can be used. Formula1 is based on Masetti et al. approximation.
+	  * Formula2 uses approximation, suggested by Arora.
+		formula	= 1 ,	1	# [1]
+	  * If formula=1, model suggested by Masetti et al. is used:
+	  * mu_dop = mumin1 exp(-Pc/N) + (mu_const - mumin2)/(1+(N/Cr)^alpha)
+	  *                             - mu1/(1+(Cs/N)^beta)
+	  * with mu_const from ConstantMobility
+		mumin1	= 20 ,		0.0000e+00	# [cm^2/Vs]
+		mumin2	= 65 ,		0.0000e+00	# [cm^2/Vs]
+		mu1	= 20 ,			0.0000e+00	# [cm^2/Vs]
+		Pc	= 8.0000e+17 ,	1.0000e+00	# [cm^3]
+		Cr	= 7.0000e+16 ,	8.0000e+16	# [cm^3]
+		Cs	= 5.2000e+17 ,	1.0000e+00	# [cm^3]
+		alpha	= 0.88 ,	0.9	# [1]
+		beta	= 0.75 ,	0.0	# [1]
+	}
+
+	* Significant change from defualts in G
+	* Much lower impact ionization will result from this.
+	* Parameters for holes repeated from GaN due to lack of data.
+	* From: C. Bulutay, "Electron initiated impact ionization in
+	* AlGaN alloys, Semicond. Sci. Technol., 17, pp L59-L62 (2002)
+	vanOverstraetendeMan * Impact Ionization:
+	{ * G_impact = alpha_n n v_drift_n  +  alpha_p p v_drift_p
+	  * with alpha = gamma a  exp(-b gamma/E) for E<E0 (low) and E>E0 (high)
+	  *  with gamma = tanh(hbarOmega/(2kT0)) / tanh(hbarOmega/(2kT))
+		a(low)	= 1.26e+07 ,	5.4100e+06	# [1/cm]
+		a(high)	= 1.26e+07 ,	5.4100e+06	# [1/cm]
+		b(low)	= 3.92e+07 ,	1.9600e+07	# [V/cm]
+		b(high)	= 3.92e+07 ,	1.9600e+07	# [V/cm]
+		E0	= 4.0000e+06,		4.0000e+06	# [V/cm]
+		hbarOmega	= 0.076,	0.076		# [eV]
+	}
+
+	QuantumPotentialParameters
+	{ * gamma:  weighting factor for quantum potential
+	  * theta:  weight for quadratic term
+	  * xi:     weight for quasi Fermi potential
+	  * eta:    weight for electrostatic potential
+		gamma	= 1.0 ,	1.0	# [1]
+		theta	= 0.5 ,	0.5	# [1]
+		xi	= 1 ,	1	# [1]
+		eta	= 1 ,	1	# [1]
+	}
+	
+	Ionization {
+		Species ("pMagnesiumActiveConcentration") {
+			type= acceptor
+			E_0= 0
+			alpha= 0
+			g= 1
+			Xsec = 1.0e-12
+		}
+                Species ("BoronActiveConcentration") {
+			type= acceptor
+			E_0= 0      # Effectively disable Boron ionization in GaN
+			alpha= 0
+			g= 2        # Degeneracy factor for acceptors
+			Xsec = 1.0e-12
+		}
+	}
+}
+
+Material="Silicon" {
+	BarrierTunneling {
+		mt= 0.2,	0.2
+	}
+
+	Ionization {
+		Species ("pMagnesiumActiveConcentration") {
+			type= acceptor
+			E_0= 0
+			alpha= 0
+			g= 1
+			Xsec = 1.0e-12
+		}
+                Species ("BoronActiveConcentration") {
+			type= acceptor
+			E_0= 0.045  # Standard B ionization energy in Si
+			alpha= 4e-7 # Standard capture coefficient
+			g= 4       # Degeneracy factor for acceptors in Si
+			Xsec = 1.0e-12
+		}
+	}
+}
+
+Material="Si3N4" {
+	BarrierTunneling {
+		mt= 0.4,0.3
+	}
+}
+
+
+Material="4HSiC" {
+    Basic {
+        Permittivity = 9.7         # Static dielectric constant (average)
+        BandGap = 3.26             # Band gap at 300K
+        Affinity = 3.7             # Electron affinity (approx value, varies with surface)
+        # Add other basic params like EffectiveMass if needed
+    }
+    ConstantMobility {
+        mumax = 800, 120           # Example values for electrons, holes
+    }
+    Scharfetter {
+        taumax = 1e-7, 1e-7        
+        Nref = 1e16, 1e16
+        
+    }
+    
+	vanOverstraetendeMan {
+        # Example parameters (REPLACE WITH ACCURATE 4H-SiC VALUES)
+		a(low)	 = 1.88e+06, 1.64e+06  # From literature (approx)
+		a(high)	 = 1.88e+06, 1.64e+06
+		b(low)	 = 1.64e+07, 1.17e+07  # From literature (approx)
+		b(high)	 = 1.64e+07, 1.17e+07
+		E0	 = 1.0e6, 1.0e6          # Single value for E0 per carrier
+		hbarOmega= 0.1, 0.1            # Single value per carrier
+	}
+
+    Ionization {
+        Species ("pMagnesiumActiveConcentration") {
+			type= acceptor
+			E_0= 0      # Disable ionization
+			alpha= 0
+			g= 1        # Use 1 or 2
+			Xsec = 1.0e-12
+		}
+        Species ("BoronActiveConcentration") {
+			type= acceptor
+			E_0= 0.3    # Approximate Boron ionization energy in 4H-SiC (check literature)
+			alpha= 1e-8 # Placeholder capture coefficient
+			g= 2        # Degeneracy factor
+			Xsec = 1.0e-12
+		}
+    }
+}
+
+
+Material="Al2O3" {
+    Basic {
+        Permittivity = 9.4         # Average static dielectric constant
+        BandGap = 8.8              # Band gap at 300K (approx)
+        Affinity = 1.0             # Electron affinity (approx)
+    }
+   
+    ConstantMobility {
+        mumax = 1e-4, 1e-4         # Set very low
+    }
+    Scharfetter {
+        taumax = 1, 1              # Set very long lifetimes
+        Nref = 1e16, 1e16
+    }
+    Ionization {
+        Species ("pMagnesiumActiveConcentration") { type= acceptor E_0= 0 alpha= 0 g= 1 Xsec = 1.0e-12 }
+        Species ("BoronActiveConcentration")      { type= acceptor E_0= 0 alpha= 0 g= 1 Xsec = 1.0e-12 }
+    }
+}
+
+Material="6HSiC" {
+    Basic {
+        Permittivity = 9.66        # Example for 6H-SiC - VERIFY
+        BandGap = 3.02             # Example for 6H-SiC at 300K - VERIFY
+        Affinity = 3.5             # Example for 6H-SiC - VERIFY
+        # Add other basic params like EffectiveMass if needed from MaterialDB/6HSiC.par or literature
+    }
+    ConstantMobility {
+        mumax = 400, 80            # Example values for 6H-SiC electrons, holes - VERIFY/IMPROVE
+    }
+    Scharfetter {                  # SRH recombination
+        taumax = 5e-8, 5e-8        # Example for 6H-SiC - VERIFY/IMPROVE
+        Nref = 1e16, 1e16
+    }
+	vanOverstraetendeMan {         # Impact Ionization
+        # REPLACE WITH ACCURATE 6H-SiC VALUES from literature
+		a(low)	 = 2.0e+06, 2.0e+06   # Placeholder - find literature values
+		a(high)	 = 2.0e+06, 2.0e+06
+		b(low)	 = 1.8e+07, 1.5e+07   # Placeholder
+		b(high)	 = 1.8e+07, 1.5e+07
+		E0	 = 1.2e6, 1.2e6       # Placeholder
+		hbarOmega= 0.09, 0.09       # Placeholder
+	}
+    Ionization {
+        Species ("pMagnesiumActiveConcentration") { # Mg not typically doped in SiC substrate
+			type= acceptor E_0= 0 alpha= 0 g= 1 Xsec = 1.0e-12 # Effectively disable ionization
+		}
+        Species ("BoronActiveConcentration") {      # Boron can be a p-type dopant in SiC
+			type= acceptor
+			E_0= 0.35   # Approximate Boron ionization energy in 6H-SiC (VERIFY from literature)
+			alpha= 1e-8 # Placeholder capture coefficient (VERIFY)
+			g= 2        # Degeneracy factor (VERIFY)
+			Xsec = 1.0e-12
+		}
+    }
+    # Add other necessary models for 6HSiC (e.g., DopingDependence for mobility, QuantumPotentialParameters if needed)
+}
