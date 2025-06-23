@@ -23,7 +23,7 @@ This project simulates and analyzes:
 - Key parameters like:
   - **Al mole fraction (xB)** in the barrier: 0.25, 0.30
   - **Barrier thickness (tB)**: 10–15 nm
-  - **Mg doping (N<sub>Mg</sub>)** in the p-GaN gate: 1.5 × 10¹⁹ – 2.0 × 10¹⁹ cm⁻³
+  - **Mg doping (N<sub>Mg</sub>)** in the p-GaN gate: 2.0 × 10¹⁹ cm⁻³
 
 Simulations were performed using **Synopsys Sentaurus** with physical models for:
 - Polarization
@@ -32,3 +32,64 @@ Simulations were performed using **Synopsys Sentaurus** with physical models for
 - Impact ionization
 
 ---
+
+
+---
+
+## Simulation Summary
+
+Breakdown characteristics were extracted using **transient drain voltage sweeps**, and electric field peaks were visualized using Sentaurus' internal plotting tools.
+
+Each case was validated against published literature to ensure consistency in Id-Vg characteristics and threshold voltage trends. The extracted data shows:
+
+- **Higher breakdown voltages** with **SiC** and **GaN/AlGaN buffer**
+- **Electric field reduction** in designs with improved depletion control and lower Al content
+- Mg doping trends affected peak field localization
+
+---
+
+##  Key Results
+
+| Buffer Type | Substrate | xB | tB (nm) | V<sub>br</sub> (V) | E<sub>max</sub> (V/cm) |
+|-------------|-----------|----|---------|---------------------|-------------------------|
+| **GaN**     | SiC-6H    | 0.30 | 13     | **1118.39**         | **9.52 × 10⁶**          |
+| **AlGaN**   | SiC-6H    | 0.30 | 10     | **1125.19**         | **9.35 × 10⁶**          |
+
+Plots and detailed results for these configurations are included in their respective folders.
+
+---
+
+## Tools & Techniques Used
+
+- **Sentaurus SDE** – For structure and meshing
+- **Sentaurus SDevice** – For device-level physics simulation
+- **Sentauraus Svisual** – For visualizing and inspecting layers
+- **MATLAB / Python** – For post-processing and plotting results
+
+---
+
+## References
+
+1. **X.-G. He**, **D.-G. Zhao**, and **D.-S. Jiang**,  
+   “Formation of two-dimensional electron gas at AlGaN/GaN heterostructure and the derivation of its sheet density expression,”  
+   *Chinese Physics B*, Vol. 24, No. 6, p. 067301, 2015.
+
+2. **I. Hwang**, **M. Kim**, **S. Baik**, **H. Kim**, **K. Lee**, **T. Kim**, and **S. Ryu**,  
+   “p-GaN Gate HEMTs With Tungsten Gate Metal for High Threshold Voltage and Low Gate Current,”  
+   *IEEE Electron Device Letters*, Vol. 34, No. 2, pp. 202–204, 2013.
+
+3. **Y. Wang**, **S. Hu**, **J. Guo**, **H. Wu**, **T. Liu**, and **J. Jiang**,  
+   “Enhancement of Breakdown Voltage in p-GaN Gate AlGaN/GaN HEMTs With a Stepped Hybrid GaN/AlN Buffer Layer,”  
+   *IEEE Journal of the Electron Devices Society*, Vol. 10, pp. 197–202, 2022.
+---
+
+## Author
+
+**Anirudh Mittal**  
+B.Tech Electrical Engineering  
+Indian Institute of Technology Gandhinagar  
+[anirudh.mittal@iitgn.ac.in](mailto:anirudh.mittal@iitgn.ac.in)
+
+---
+
+
